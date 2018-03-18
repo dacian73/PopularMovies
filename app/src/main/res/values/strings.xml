@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Popular Movies</string>
+    <string name="nothing_to_show">There is nothing here</string>
+    <string name="no_internet">There is no internet connection.</string>
+    <string name="settings_min_date_key">No earliest date selected</string>
+    <string name="settings_max_date_key">No most recent date selected</string>
+    <string name="settings_order_by_key">No order by criteria</string>
+    <string name="settings_order_by_default">Order by default</string>
+</resources>
