@@ -20,15 +20,15 @@ import java.util.ArrayList;
  * Created by alex on 18.03.2018.
  */
 
-public class Query {
-    public static final int READ_TIMEOUT = 10000;
-    public static final int CONNECT_TIMEOUT = 15000;
+class Query {
+    private static final int READ_TIMEOUT = 10000;
+    private static final int CONNECT_TIMEOUT = 15000;
 
     // Empty private constructor
     private Query() {
     }
 
-    public static ArrayList<MovieObject> returnMovie (String requestUrl) {
+    static ArrayList<MovieObject> returnMovie(String requestUrl) {
         // Create URL object
         URL url = createUrl(requestUrl);
 
@@ -39,8 +39,7 @@ public class Query {
         } catch (IOException e) {
             // HTTP ERROR
         }
-        ArrayList<MovieObject> news = extractMovie(jsonResponse);
-        return news;
+        return extractMovie(jsonResponse);
     }
 
     // Create URL from string
@@ -108,9 +107,9 @@ public class Query {
     }
 
     // Parsing the JSON response
-    public static ArrayList<MovieObject> extractMovie(String JSONResponse) {
+    private static ArrayList<MovieObject> extractMovie(String JSONResponse) {
         // Create an empty ArrayList
-        ArrayList<MovieObject> news = new ArrayList<>();
+        ArrayList<MovieObject> movies = new ArrayList<>();
 
         // Try to parse the JSON response
         try {
@@ -118,40 +117,35 @@ public class Query {
             // Create JSONObject
             JSONObject baseJsonResponse = new JSONObject(JSONResponse);
 
-            // Extract the JSONObject "response"
-            JSONObject responseObject = baseJsonResponse.getJSONObject("response");
             // Extract the JSONArray "results"
-            JSONArray newsArray = responseObject.getJSONArray("results");
+            JSONArray moviesArray = baseJsonResponse.getJSONArray("results");
 
             // For each item create a JSONObject
-            for (int i = 0; i < newsArray.length(); i++) {
+            for (int i = 0; i < moviesArray.length(); i++) {
 
-                // Create a JSON Object for each news article
-                JSONObject currentNewsArticle = newsArray.getJSONObject(i);
+                // Create a JSON Object for each movie
+                JSONObject currentMovie = moviesArray.getJSONObject(i);
                 // Extract the title
-                String title = currentNewsArticle.getString("webTitle");
-                // Extract the section name
-                String section = currentNewsArticle.getString("sectionName");
-                // Extract the url
-                String url = currentNewsArticle.getString("webUrl");
-                // Extract date
-                String date = currentNewsArticle.getString("webPublicationDate");
+                String title = currentMovie.getString("original_title");
+                // Extract poster path
+                String posterPath = currentMovie.getString("poster_path");
+                // Extract overview
+                String overview = currentMovie.getString("overview");
+                // Extract release date
+                String releaseDate = currentMovie.getString("release_date");
+                // Extract rating
+                String rating = currentMovie.getString("vote_average");
 
-                // Create fields JSON Object
-                JSONObject fields = currentNewsArticle.getJSONObject("fields");
-                // Extract the publication text
-                String publication = fields.getString("publication");
+                // Create a new movie object
+                MovieObject movie = new MovieObject(title, posterPath, overview, releaseDate, rating);
 
-                // Create a new news article object
-                MovieObject movie = new MovieObject(title, publication, date, url, section);
-
-                // Add the current news article to the news array
-                news.add(movie);
+                // Add the current movie to the movies array
+                movies.add(movie);
             }
 
         } catch (JSONException e) {
             Log.e(Query.class.getSimpleName(), "An error occured while parsing.", e);
         }
-        return news;
+        return movies;
     }
 }

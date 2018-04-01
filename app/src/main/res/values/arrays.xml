@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="orderByArray">
+        <item>Most Popular</item>
+        <item>Highest Rated</item>
+        <item>Most Recent</item>
+    </string-array>
+    <string-array name="OrderByValues">
+        <item>&amp;sort_by=popularity.desc</item>
+        <item>&amp;sort_by=vote_average.desc</item>
+        <item>&amp;sort_by=primary_release_date.desc</item>
+    </string-array>
+</resources>

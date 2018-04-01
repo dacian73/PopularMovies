@@ -7,50 +7,61 @@ package com.example.thephilosopherwanderer.popularmovies;
 
 public class MovieObject {
     // Declaring variables
-    String mTitle;
-    String mOverview;
-    String mReleaseDate;
-    String mUrl;
-    String mRating;
+    private String mTitle;
+    private String mPosterPath;
+    private String mOverview;
+    private String mReleaseDate;
+    private String mRating;
+
 
     // Constructor
-    public MovieObject (String title, String publication, String date, String url, String section) {
+    MovieObject(String title, String posterPath, String overview, String releaseDate, String rating) {
         mTitle = title;
-        mOverview = publication;
-        mReleaseDate = date;
-        mUrl = url;
-        mRating = section;
+        mOverview = overview;
+        mReleaseDate = releaseDate;
+        mRating = rating;
+        mPosterPath = posterPath;
     }
 
     // Getter methods
-    public String getmTitle () {
+    String getmTitle() {
         return mTitle;
     }
-    public  String getmPublication () {
-        return mOverview;
-    }
-    public String getmReleaseDate() {
-        return mReleaseDate;
-    }
-    public String getmUrl () {
-        return mUrl;
-    }
-    public String getmRating() { return mRating;}
 
     // Setter methods
     public void setmTitle (String title) {
         mTitle = title;
     }
-    public void setmPublication (String publication) {
-        mOverview = publication;
+
+    String getmOverview() {
+        return mOverview;
     }
+
+    public void setmOverview(String overview) {
+        mOverview = overview;
+    }
+
+    String getmReleaseDate() {
+        return mReleaseDate;
+    }
+
     public void setmReleaseDate(String date) {
         mReleaseDate = date;
     }
-    public void setmUrl (String url) {
-        mUrl = url;
+
+    String getmRating() {
+        return mRating;
     }
+
     public void setmRating(String section) { mRating = section; }
+
+    String getPosterPath() {
+        return mPosterPath;
+    }
+
+    public void setmPosterPath(String posterPath) {
+        mPosterPath = posterPath;
+    }
 }
 
 

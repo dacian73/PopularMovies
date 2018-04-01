@@ -2,8 +2,16 @@
     <string name="app_name">Popular Movies</string>
     <string name="nothing_to_show">There is nothing here</string>
     <string name="no_internet">There is no internet connection.</string>
-    <string name="settings_min_date_key">No earliest date selected</string>
-    <string name="settings_max_date_key">No most recent date selected</string>
-    <string name="settings_order_by_key">No order by criteria</string>
-    <string name="settings_order_by_default">Order by default</string>
+
+
+    <string name="no_movies">No movies were found</string>
+    <string name="filter">Filter</string>
+
+    <string name="adult_preference_key">adult_preference_key</string>
+    <string name="order_preference_key">order_preference_key</string>
+
+    <string name="settings_order_by_popularity">&amp;sort_by=popularity.desc</string>
+    <string name="settings_order_by_rating">&amp;sort_by=vote_average.desc</string>
+    <string name="release_date">Release Date:</string>
+    <string name="rating">Rating:</string>
 </resources>
