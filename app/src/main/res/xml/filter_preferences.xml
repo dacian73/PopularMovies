@@ -9,13 +9,4 @@
             android:key="@string/order_preference_key"
             android:title="Chose the order criteria" />
     </PreferenceCategory>
-
-    <PreferenceCategory android:title="Filter Movies">
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="@string/adult_preference_key"
-            android:summaryOff="Exclude"
-            android:summaryOn="Include"
-            android:title="Include Adult Movies" />
-    </PreferenceCategory>
 </PreferenceScreen>

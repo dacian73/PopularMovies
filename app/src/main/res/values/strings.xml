@@ -7,11 +7,10 @@
     <string name="no_movies">No movies were found</string>
     <string name="filter">Filter</string>
 
-    <string name="adult_preference_key">adult_preference_key</string>
     <string name="order_preference_key">order_preference_key</string>
 
-    <string name="settings_order_by_popularity">&amp;sort_by=popularity.desc</string>
-    <string name="settings_order_by_rating">&amp;sort_by=vote_average.desc</string>
+    <string name="settings_order_by_popularity">popular</string>
+    <string name="settings_order_by_rating">top_rated</string>
     <string name="release_date">Release Date:</string>
     <string name="rating">Rating:</string>
 </resources>

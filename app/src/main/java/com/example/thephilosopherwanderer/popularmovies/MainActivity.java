@@ -21,11 +21,10 @@ import android.widget.TextView;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<MovieObject>>{
-
+    private static final String API_KEY = BuildConfig.API_KEY;
     // Constant value for the ID of the Loader
     private static final int MOVIE_LOADER_ID = 1;
-    String BASE_URL = "https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=";
-    String API_KEY = "56839afbbcc1e02ed98b2d90a9653e9d";
+    String BASE_URL = "https://api.themoviedb.org/3/movie/";
     // GridView object to be referenced throughout this class
     GridView gridView;
     private MovieAdapter adapter;
@@ -99,20 +98,11 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 getString(R.string.order_preference_key),
                 getString(R.string.settings_order_by_popularity)
         );
-        // Get preference for including adult movies
-        Boolean adult = sharedPrefs.getBoolean(
-                getString(R.string.adult_preference_key),
-                false
-        );
-
-        String adultString = "&include_adult=";
-        if (adult) adultString = adultString + true;
-        else adultString = adultString + false;
 
         String urlString;
 
         // Create the URL for the query
-        urlString = BASE_URL + API_KEY + orderBy + adultString;
+        urlString = BASE_URL + orderBy + API_KEY;
 
         // Create a new loader for the given URL
         return new MovieLoader(this, urlString);
