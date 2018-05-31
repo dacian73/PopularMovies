@@ -20,15 +20,15 @@ import java.util.ArrayList;
  * Created by alex on 18.03.2018.
  */
 
-class Query {
+class QueryForReview {
     private static final int READ_TIMEOUT = 10000;
     private static final int CONNECT_TIMEOUT = 15000;
 
     // Empty private constructor
-    private Query() {
+    private QueryForReview() {
     }
 
-    static ArrayList<MovieObject> returnMovie(String requestUrl) {
+    static ArrayList<ReviewObject> returnReview(String requestUrl) {
         // Create URL object
         URL url = createUrl(requestUrl);
 
@@ -39,7 +39,7 @@ class Query {
         } catch (IOException e) {
             // HTTP ERROR
         }
-        return extractMovie(jsonResponse);
+        return extractReview(jsonResponse);
     }
 
     // Create URL from string
@@ -49,7 +49,7 @@ class Query {
             url = new URL(urlString);
         } catch (MalformedURLException e) {
             // Error creating the url
-            Log.e(Query.class.getSimpleName(), "An error creating the url.", e);
+            Log.e(QueryForReview.class.getSimpleName(), "An error creating the url.", e);
         }
         return url;
     }
@@ -76,10 +76,10 @@ class Query {
                 inputStream = urlConnection.getInputStream();
                 jsonResponse = jsonToStringFromStream(inputStream);
             } else {
-                Log.e(Query.class.getSimpleName(), "HTTP error code: " + urlConnection.getResponseCode());
+                Log.e(QueryForReview.class.getSimpleName(), "HTTP error code: " + urlConnection.getResponseCode());
             }
         } catch (IOException e) {
-            Log.e(Query.class.getSimpleName(), "An error occurred when trying to retrieve the json response.", e);
+            Log.e(QueryForReview.class.getSimpleName(), "An error occurred when trying to retrieve the json response.", e);
         } finally {
             if (urlConnection != null) {
                 urlConnection.disconnect();
@@ -107,9 +107,9 @@ class Query {
     }
 
     // Parsing the JSON response
-    private static ArrayList<MovieObject> extractMovie(String JSONResponse) {
+    private static ArrayList<ReviewObject> extractReview(String JSONResponse) {
         // Create an empty ArrayList
-        ArrayList<MovieObject> movies = new ArrayList<>();
+        ArrayList<ReviewObject> reviews = new ArrayList<>();
 
         // Try to parse the JSON response
         try {
@@ -118,34 +118,28 @@ class Query {
             JSONObject baseJsonResponse = new JSONObject(JSONResponse);
 
             // Extract the JSONArray "results"
-            JSONArray moviesArray = baseJsonResponse.getJSONArray("results");
+            JSONArray reviewArray = baseJsonResponse.getJSONArray("results");
 
             // For each item create a JSONObject
-            for (int i = 0; i < moviesArray.length(); i++) {
+            for (int i = 0; i < reviewArray.length(); i++) {
 
-                // Create a JSON Object for each movie
-                JSONObject currentMovie = moviesArray.getJSONObject(i);
-                // Extract the title
-                String title = currentMovie.getString("original_title");
-                // Extract poster path
-                String posterPath = currentMovie.getString("poster_path");
-                // Extract overview
-                String overview = currentMovie.getString("overview");
-                // Extract release date
-                String releaseDate = currentMovie.getString("release_date");
-                // Extract rating
-                String rating = currentMovie.getString("vote_average");
+                // Create a JSON Object for each trailer
+                JSONObject currentReview = reviewArray.getJSONObject(i);
+                // Extract the name of the author
+                String author = currentReview.getString("author");
+                // Extract the review content
+                String content = currentReview.getString("content");
 
-                // Create a new movie object
-                MovieObject movie = new MovieObject(title, posterPath, overview, releaseDate, rating);
+                // Create a new review object
+                ReviewObject review = new ReviewObject(author, content);
 
-                // Add the current movie to the movies array
-                movies.add(movie);
+                // Add the current review to the review array
+                reviews.add(review);
             }
 
         } catch (JSONException e) {
-            Log.e(Query.class.getSimpleName(), "An error occured while parsing.", e);
+            Log.e(QueryForReview.class.getSimpleName(), "An error occured while parsing.", e);
         }
-        return movies;
+        return reviews;
     }
 }

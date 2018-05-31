@@ -9,10 +9,10 @@ import java.util.List;
  * Created by alex on 18.03.2018.
  */
 
-public class MovieLoader extends AsyncTaskLoader<List<MovieObject>> {
+public class TrailerLoader extends AsyncTaskLoader<List<TrailerObject>> {
     private String myRequestUrl;
 
-    MovieLoader(Context context, String requestUrl) {
+    TrailerLoader(Context context, String requestUrl) {
         super(context);
         myRequestUrl = requestUrl;
     }
@@ -23,7 +23,7 @@ public class MovieLoader extends AsyncTaskLoader<List<MovieObject>> {
     }
 
     @Override
-    public List<MovieObject> loadInBackground() {
-        return QueryForMovies.returnMovie(myRequestUrl);
+    public List<TrailerObject> loadInBackground() {
+        return QueryForTrailer.returnTrailer(myRequestUrl);
     }
 }

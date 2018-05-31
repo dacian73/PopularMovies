@@ -12,15 +12,17 @@ public class MovieObject {
     private String mOverview;
     private String mReleaseDate;
     private String mRating;
+    private String mMovieID;
 
 
     // Constructor
-    MovieObject(String title, String posterPath, String overview, String releaseDate, String rating) {
+    MovieObject(String title, String posterPath, String overview, String releaseDate, String rating, String movieID) {
         mTitle = title;
         mOverview = overview;
         mReleaseDate = releaseDate;
         mRating = rating;
         mPosterPath = posterPath;
+        mMovieID = movieID;
     }
 
     // Getter methods
@@ -59,8 +61,16 @@ public class MovieObject {
         return mPosterPath;
     }
 
+    String getMovieID() {
+        return mMovieID;
+    }
+
     public void setmPosterPath(String posterPath) {
         mPosterPath = posterPath;
+    }
+
+    public void setmMovieID(String movieID) {
+        mMovieID = movieID;
     }
 }
 

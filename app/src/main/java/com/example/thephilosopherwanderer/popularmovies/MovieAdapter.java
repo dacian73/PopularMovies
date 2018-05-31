@@ -32,7 +32,7 @@ public class MovieAdapter extends ArrayAdapter<MovieObject> {
 
     @NonNull
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, @NonNull ViewGroup parent) {
         // Check if an existing view is being reused and, if not, inflate the view
         View movieGridView = convertView;
         if (movieGridView == null) {
@@ -51,11 +51,11 @@ public class MovieAdapter extends ArrayAdapter<MovieObject> {
         }
 
         // Get the poster path for the current movie object and set the poster to the corresponding ImageView
-        if ((currentMovie.getPosterPath() != null) && (!currentMovie.getPosterPath().equals("null"))) {
+
+        if ((currentMovie != null) && (currentMovie.getPosterPath() != null) && (!currentMovie.getPosterPath().equals("null"))) {
             String posterURL = BASE_POSTER_URL + BASE_POSTER_IMAGE_SIZE + currentMovie.getPosterPath();
             Picasso.with(getContext()).load(posterURL).into((ImageView) movieGridView.findViewById(R.id.poster_movie_layout));
         } else movieGridView.findViewById(R.id.poster_movie_layout).setVisibility(View.GONE);
-
 
         // Find the Linear Layout that contains the movie
         LinearLayout movie = movieGridView.findViewById(R.id.movie_layout);
@@ -68,6 +68,7 @@ public class MovieAdapter extends ArrayAdapter<MovieObject> {
                 goToDetail.putExtra("poster", BASE_POSTER_URL + BIG_POSTER_SIZE + currentMovie.getPosterPath());
                 goToDetail.putExtra("release", currentMovie.getmReleaseDate());
                 goToDetail.putExtra("rating", currentMovie.getmRating());
+                goToDetail.putExtra("id", currentMovie.getMovieID());
                 getContext().startActivity(goToDetail);
             }
         });
