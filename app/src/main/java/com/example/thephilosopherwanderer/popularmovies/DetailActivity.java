@@ -2,9 +2,12 @@ package com.example.thephilosopherwanderer.popularmovies;
 
 import android.app.LoaderManager;
 import android.content.ActivityNotFoundException;
+import android.content.ContentUris;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.Loader;
+import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -42,6 +45,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
     String VIDEOS_URL = "/videos";
     String REVIEWS_URL = "/reviews";
     String movieID;
+    ImageView favoriteImageView;
     // Constants
     private String BASE_POSTER_URL = "http://image.tmdb.org/t/p/";
     private String BASE_POSTER_IMAGE_SIZE = "w185/";
@@ -92,6 +96,21 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
 
         tryToConnect();
 
+        // Favorite Button
+        favoriteImageView = findViewById(R.id.favorite_image_view);
+
+        if (isFavorite(movieID) != -1) {
+            favoriteImageView.setImageResource(R.drawable.ic_star_black_48dp);
+        }
+
+        final MovieObject finalMovie = movie;
+        favoriteImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onFavoriteButtonPress(finalMovie);
+            }
+        });
+
     }
 
     @Override
@@ -100,7 +119,6 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
         if (i == 1) {
             // Create the URL for the query
             urlString = BASE_URL + movieID + VIDEOS_URL + PRE_API_KEY_URL + API_KEY;
-            Toast.makeText(this, "url videos: " + urlString, Toast.LENGTH_SHORT).show();
             // Set Visibility to relevant views
             trailerProgressBar.setVisibility(View.VISIBLE);
             // Create a new loader for the given URL
@@ -214,4 +232,54 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
             this.startActivity(youtubeWebBrowser);
         }
     }
+
+    private void onFavoriteButtonPress(MovieObject movie) {
+        // Values to be saved in Favorites Database
+        ContentValues values = new ContentValues();
+        values.put(DbContract.Movie.COLUMN_TITLE, movie.getmTitle());
+        values.put(DbContract.Movie.COLUMN_POSTER_PATH, movie.getPosterPath());
+        values.put(DbContract.Movie.COLUMN_OVERVIEW, movie.getmOverview());
+        values.put(DbContract.Movie.COLUMN_RELEASE_DATE, movie.getmReleaseDate());
+        values.put(DbContract.Movie.COLUMN_RATING, movie.getmRating());
+        values.put(DbContract.Movie.COLUMN_MOVIE_ID, movie.getMovieID());
+
+        int id_as_favorite = isFavorite(movie.getMovieID());
+        if (id_as_favorite != -1) {
+            // Delete from favorites
+            Uri currentUri = ContentUris.withAppendedId(DbContract.Movie.CONTENT_URI, id_as_favorite);
+            int rowsDeleted = getContentResolver().delete(currentUri, null, null);
+            if (rowsDeleted == 0) {
+                Toast.makeText(this, getString(R.string.failed_to_delete), Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, getString(R.string.successfully_deleted), Toast.LENGTH_SHORT).show();
+                favoriteImageView.setImageResource(R.drawable.ic_star_outline_black_48dp);
+            }
+        } else {
+            // Add to favorites
+            Uri newUri = getContentResolver().insert(DbContract.Movie.CONTENT_URI, values);
+            if (newUri == null) {
+                Toast.makeText(this, getString(R.string.insertion_failed), Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, getString(R.string.insertion_succeded), Toast.LENGTH_SHORT).show();
+                favoriteImageView.setImageResource(R.drawable.ic_star_black_48dp);
+            }
+        }
+
+    }
+
+    private int isFavorite(String id) {
+        String[] projection = {
+                DbContract.Movie._ID,
+                DbContract.Movie.COLUMN_MOVIE_ID
+        };
+        Cursor queryResult = getContentResolver().query(DbContract.Movie.CONTENT_URI, projection, "mMovieID = " + id, null, null);
+        if (queryResult.getCount() == 0) {
+            return -1;
+        } else {
+            int IdColumnIndex = queryResult.getColumnIndex(DbContract.Movie._ID);
+            queryResult.moveToFirst();
+            return queryResult.getInt(IdColumnIndex);
+        }
+    }
+
 }

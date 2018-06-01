@@ -18,4 +18,8 @@
     <string name="reviews">Reviews</string>
     <string name="poster_description">Movie Poster</string>
     <string name="trailer_thumbnail">Trailer</string>
+    <string name="failed_to_delete">Failed to delete from favorites</string>
+    <string name="successfully_deleted">Removed from favorites</string>
+    <string name="insertion_failed">Failed to mark as Favorite</string>
+    <string name="insertion_succeded">Marked as Favorite</string>
 </resources>
