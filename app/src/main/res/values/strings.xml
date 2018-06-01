@@ -17,4 +17,5 @@
     <string name="no_trailers">No trailers found</string>
     <string name="reviews">Reviews</string>
     <string name="poster_description">Movie Poster</string>
+    <string name="trailer_thumbnail">Trailer</string>
 </resources>

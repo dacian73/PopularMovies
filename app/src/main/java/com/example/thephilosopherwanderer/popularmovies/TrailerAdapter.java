@@ -5,7 +5,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -19,6 +22,8 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.MyViewHo
     private LayoutInflater inflater;
     private Context context;
     private List<TrailerObject> trailersList;
+    private String BASE_YOUTUBE_THUMBNAIL_URL = "https://img.youtube.com/vi/";
+    private String YOUTUBE_THUMBNAIL_END = "/0.jpg";
 
     TrailerAdapter(List<TrailerObject> trailersList, MyOnItemClickListener listener) {
         // initialize the click listener
@@ -49,11 +54,13 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.MyViewHo
 
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public TextView title;
+        public ImageView thumbnail;
 
         MyViewHolder(View view) {
             super(view);
             view.setOnClickListener(this);
             title = view.findViewById(R.id.trailer_name);
+            thumbnail = view.findViewById(R.id.trailer_thumbnail);
         }
 
         @Override
@@ -65,6 +72,8 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.MyViewHo
         void bind(int position) {
             TrailerObject currentTrailer = trailersList.get(position);
             title.setText(currentTrailer.getmName());
+            String thumbnailURL = BASE_YOUTUBE_THUMBNAIL_URL + currentTrailer.getmKey() + YOUTUBE_THUMBNAIL_END;
+            Picasso.with(context).load(thumbnailURL).into(thumbnail);
         }
     }
 }

@@ -123,17 +123,17 @@ class QueryForReview {
             // For each item create a JSONObject
             for (int i = 0; i < reviewArray.length(); i++) {
 
-                // Create a JSON Object for each trailer
+                // Create a JSON Object for each review
                 JSONObject currentReview = reviewArray.getJSONObject(i);
-                // Extract the name of the author
-                String author = currentReview.getString("author");
-                // Extract the review content
-                String content = currentReview.getString("content");
+                // Extract the review name
+                String name = currentReview.getString("author");
+                // Extract key for the review
+                String key = currentReview.getString("content");
 
                 // Create a new review object
-                ReviewObject review = new ReviewObject(author, content);
+                ReviewObject review = new ReviewObject(name, key);
 
-                // Add the current review to the review array
+                // Add the current trailer to the trailer array
                 reviews.add(review);
             }
 

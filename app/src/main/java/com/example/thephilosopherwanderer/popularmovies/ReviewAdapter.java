@@ -17,7 +17,7 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.myHolder> 
     private List<ReviewObject> reviewObjects;
 
     // Constructor
-    ReviewAdapter(List<ReviewObject> reviewObjects) {
+    public ReviewAdapter(List<ReviewObject> reviewObjects) {
         this.reviewObjects = reviewObjects;
     }
 
@@ -47,7 +47,7 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.myHolder> 
         TextView contentTextView;
 
         // Constructor
-        myHolder(View itemView) {
+        public myHolder(View itemView) {
             super(itemView);
             // Initialize the variables for views with findViewById
             authorTextView = itemView.findViewById(R.id.review_author);

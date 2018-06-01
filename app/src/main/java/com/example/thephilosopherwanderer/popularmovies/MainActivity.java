@@ -24,12 +24,12 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     private static final String API_KEY = BuildConfig.API_KEY;
     // Constant value for the ID of the Loader
     private static final int MOVIE_LOADER_ID = 1;
-    private static final int TRAILER_LOADER_ID = 2;
     String BASE_URL = "https://api.themoviedb.org/3/movie/";
     String PRE_API_KEY_URL = "?api_key=";
     // GridView object to be referenced throughout this class
     GridView gridView;
     private MovieAdapter adapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         emptyTextView.setVisibility(View.VISIBLE);
 
         tryToConnect();
+
     }
 
     private void tryToConnect() {
@@ -166,4 +167,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         tryToConnect();
         super.onResume();
     }
+
+
 }

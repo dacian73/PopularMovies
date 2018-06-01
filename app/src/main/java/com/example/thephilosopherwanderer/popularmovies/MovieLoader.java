@@ -12,7 +12,7 @@ import java.util.List;
 public class MovieLoader extends AsyncTaskLoader<List<MovieObject>> {
     private String myRequestUrl;
 
-    MovieLoader(Context context, String requestUrl) {
+    public MovieLoader(Context context, String requestUrl) {
         super(context);
         myRequestUrl = requestUrl;
     }

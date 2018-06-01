@@ -1,11 +1,25 @@
 package com.example.thephilosopherwanderer.popularmovies;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by alex on 17.03.2018.
  */
 
 
-public class MovieObject {
+public class MovieObject implements Parcelable {
+    public static final Creator<MovieObject> CREATOR = new Creator<MovieObject>() {
+        @Override
+        public MovieObject createFromParcel(Parcel in) {
+            return new MovieObject(in);
+        }
+
+        @Override
+        public MovieObject[] newArray(int size) {
+            return new MovieObject[size];
+        }
+    };
     // Declaring variables
     private String mTitle;
     private String mPosterPath;
@@ -13,7 +27,6 @@ public class MovieObject {
     private String mReleaseDate;
     private String mRating;
     private String mMovieID;
-
 
     // Constructor
     MovieObject(String title, String posterPath, String overview, String releaseDate, String rating, String movieID) {
@@ -23,6 +36,15 @@ public class MovieObject {
         mRating = rating;
         mPosterPath = posterPath;
         mMovieID = movieID;
+    }
+
+    protected MovieObject(Parcel in) {
+        mTitle = in.readString();
+        mPosterPath = in.readString();
+        mOverview = in.readString();
+        mReleaseDate = in.readString();
+        mRating = in.readString();
+        mMovieID = in.readString();
     }
 
     // Getter methods
@@ -71,6 +93,21 @@ public class MovieObject {
 
     public void setmMovieID(String movieID) {
         mMovieID = movieID;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(mTitle);
+        parcel.writeString(mPosterPath);
+        parcel.writeString(mOverview);
+        parcel.writeString(mReleaseDate);
+        parcel.writeString(mRating);
+        parcel.writeString(mMovieID);
     }
 }
 

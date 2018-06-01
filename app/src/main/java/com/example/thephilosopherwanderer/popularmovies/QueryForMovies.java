@@ -135,7 +135,7 @@ class QueryForMovies {
                 String releaseDate = currentMovie.getString("release_date");
                 // Extract rating
                 String rating = currentMovie.getString("vote_average");
-                // Extract movie ID
+                // Extract Id
                 String id = currentMovie.getString("id");
 
                 // Create a new movie object

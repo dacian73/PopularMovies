@@ -63,12 +63,7 @@ public class MovieAdapter extends ArrayAdapter<MovieObject> {
             @Override
             public void onClick(View view) {
                 Intent goToDetail = new Intent(getContext(), DetailActivity.class);
-                goToDetail.putExtra("title", currentMovie.getmTitle());
-                goToDetail.putExtra("overview", currentMovie.getmOverview());
-                goToDetail.putExtra("poster", BASE_POSTER_URL + BIG_POSTER_SIZE + currentMovie.getPosterPath());
-                goToDetail.putExtra("release", currentMovie.getmReleaseDate());
-                goToDetail.putExtra("rating", currentMovie.getmRating());
-                goToDetail.putExtra("id", currentMovie.getMovieID());
+                goToDetail.putExtra("movie", currentMovie);
                 getContext().startActivity(goToDetail);
             }
         });

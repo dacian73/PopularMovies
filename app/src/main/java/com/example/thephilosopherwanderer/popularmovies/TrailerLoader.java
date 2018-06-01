@@ -12,7 +12,7 @@ import java.util.List;
 public class TrailerLoader extends AsyncTaskLoader<List<TrailerObject>> {
     private String myRequestUrl;
 
-    TrailerLoader(Context context, String requestUrl) {
+    public TrailerLoader(Context context, String requestUrl) {
         super(context);
         myRequestUrl = requestUrl;
     }

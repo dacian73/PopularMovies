@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -41,6 +42,10 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
     String VIDEOS_URL = "/videos";
     String REVIEWS_URL = "/reviews";
     String movieID;
+    // Constants
+    private String BASE_POSTER_URL = "http://image.tmdb.org/t/p/";
+    private String BASE_POSTER_IMAGE_SIZE = "w185/";
+    private String BIG_POSTER_SIZE = "w342/";
     private TrailerAdapter trailerAdapter;
     private ReviewAdapter reviewAdapter;
 
@@ -49,27 +54,34 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
         Bundle data = getIntent().getExtras();
+        MovieObject movie = null;
         if (data != null) {
+            movie = data.getParcelable("movie");
+        }
+        if (movie != null) {
             // Set the title of the movie
-            title = data.getString("title");
+            title = movie.getmTitle();
             TextView titleTV = findViewById(R.id.title_detail);
             titleTV.setText(title);
             // Set the short description of the movie
-            overview = data.getString("overview");
+            overview = movie.getmOverview();
             TextView overviewTV = findViewById(R.id.overview_detail);
             overviewTV.setText(overview);
-            // Set the poster of the movie
-            Picasso.with(this).load(data.getString("poster")).into((ImageView) findViewById(R.id.poster_detail));
+            // Get the poster path for the current movie object and set the poster to the corresponding ImageView
+            if ((movie.getPosterPath() != null) && (!movie.getPosterPath().equals("null"))) {
+                String posterURL = BASE_POSTER_URL + BIG_POSTER_SIZE + movie.getPosterPath();
+                Picasso.with(this).load(posterURL).into((ImageView) findViewById(R.id.poster_detail));
+            }
             // Set the release date of the movie
-            release = data.getString("release");
+            release = movie.getmReleaseDate();
             TextView releaseTV = findViewById(R.id.release_detail);
             releaseTV.setText(release);
             // Set the ratting of the movie
-            rating = data.getString("rating");
+            rating = movie.getmRating();
             TextView ratingTV = findViewById(R.id.rating_detail);
             ratingTV.setText(rating);
             // Get movie ID
-            movieID = data.getString("id");
+            movieID = movie.getMovieID();
         }
 
         trailerRecycler = findViewById(R.id.trailer_recyler_view);
@@ -88,6 +100,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
         if (i == 1) {
             // Create the URL for the query
             urlString = BASE_URL + movieID + VIDEOS_URL + PRE_API_KEY_URL + API_KEY;
+            Toast.makeText(this, "url videos: " + urlString, Toast.LENGTH_SHORT).show();
             // Set Visibility to relevant views
             trailerProgressBar.setVisibility(View.VISIBLE);
             // Create a new loader for the given URL
@@ -118,7 +131,7 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
                 // Update adapter
                 trailerAdapter = new TrailerAdapter(trailerObjects, this);
                 // Set the adapter to that List View
-                LinearLayoutManager myLayoutManager = new LinearLayoutManager(this);
+                LinearLayoutManager myLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
                 trailerRecycler.setLayoutManager(myLayoutManager);
                 trailerRecycler.setHasFixedSize(true);
                 trailerRecycler.setAdapter(trailerAdapter);
